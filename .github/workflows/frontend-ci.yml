@@ -25,16 +25,28 @@ jobs:
         working-directory: frontend
         run: npm ci
 
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build --if-present
+
+      - name: Start backend server
+        working-directory: backend
+        run: npm run start &
+        shell: bash
+
+      - name: Wait for backend
+        run: npx wait-on http://localhost:5000
 
       - name: Start Vite dev server
         working-directory: frontend
         run: npm run dev &
         shell: bash
 
-      - name: Wait for server
+      - name: Wait for frontend
         run: npx wait-on http://localhost:5173
 
       - name: Run Cypress tests

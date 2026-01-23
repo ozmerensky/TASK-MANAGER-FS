@@ -25,9 +25,9 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Run Cypress tests headless (Electron)
+      - name: Run Cypress tests (Chrome headless)
         working-directory: frontend
-        run: npx cypress run --headless --browser electron
+        run: npx cypress run --browser chrome --headless
 
       - name: Build frontend
         working-directory: frontend

@@ -9,6 +9,17 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    
+    services:
+      mongo:
+        image: mongo:6.0
+        options: >-
+          --health-cmd mongosh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout repository

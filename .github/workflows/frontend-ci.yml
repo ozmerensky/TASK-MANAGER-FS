@@ -1,4 +1,4 @@
-name: E2E Tests with Docker Compose
+name: Full Stack CI
 
 on:
   push:
@@ -7,39 +7,45 @@ on:
     branches: [test]
 
 jobs:
-  e2e:
+  build_and_test:
     runs-on: ubuntu-latest
+
     services:
       docker:
-        image: docker:24.0.6
+        image: docker:24.0.5
         options: --privileged
         ports:
-          - 5173:5173
-          - 3000:80
           - 5000:5000
+          - 3000:3000
           - 27017:27017
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
-        run: |
-          docker-compose -f docker-compose.yml up -d --build
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Wait for backend to be ready
-        run: |
-          npx wait-on http://localhost:5000
+      - name: Log Docker version
+        run: docker --version
 
-      - name: Wait for frontend to be ready
+      - name: Build and start Docker Compose
         run: |
-          npx wait-on http://localhost:5173
+          docker compose -f docker-compose.yml up -d --build
+          
+      - name: Wait for frontend
+        run: npx wait-on http://localhost:5173
 
-      - name: Run Cypress tests
-        run: |
-          docker-compose exec frontend npx cypress run --browser chrome --headless
+      - name: Wait for backend
+        run: npx wait-on http://localhost:5000
 
-      - name: Tear down
+      - name: Run Cypress tests (Chrome headless)
+        run: npx cypress run --browser chrome --headless
+
+      - name: Stop Docker Compose
         if: always()
-        run: |
-          docker-compose down
+        run: docker compose down

@@ -1,4 +1,4 @@
-name: Frontend & Backend E2E CI
+name: Frontend CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [test]
 
 jobs:
-  e2e_tests:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,24 +21,30 @@ jobs:
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
 
-      - name: Start Backend
-        run: npm run start:backend &
-        env:
-          PORT: 5000
+      - name: Start backend server
+        run: |
+          npm --prefix ../backend run dev &
+        shell: bash
 
-      - name: Wait for Backend
+      - name: Wait for backend
         run: npx wait-on http://localhost:5000
+        working-directory: frontend
 
-      - name: Start Frontend
-        run: npm run dev --prefix frontend &
-        env:
-          PORT: 5173
+      - name: Start frontend and wait
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173
+        working-directory: frontend
+        shell: bash
 
-      - name: Wait for Frontend
-        run: npx wait-on http://localhost:5173
-
-      - name: Run Cypress E2E Tests
+      - name: Run Cypress tests
+        working-directory: frontend
         run: npx cypress run --browser chrome --headless
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build

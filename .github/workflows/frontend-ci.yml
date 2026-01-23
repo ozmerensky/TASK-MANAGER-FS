@@ -25,10 +25,10 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Run frontend tests
+      - name: Run frontend tests (Cypress)
         working-directory: frontend
-        run: npm run test --if-present
+        run: npx cypress run
 
       - name: Build frontend
         working-directory: frontend
-        run: npm run build --if-present
+        run: npm run build

@@ -1,4 +1,4 @@
-name: Full Stack CI
+name: Fullstack E2E CI
 
 on:
   push:
@@ -7,16 +7,14 @@ on:
     branches: [test]
 
 jobs:
-  build_and_test:
+  fullstack_e2e:
     runs-on: ubuntu-latest
 
     services:
-      docker:
-        image: docker:24.0.5
-        options: --privileged
+      # אפשר להוסיף כאן MongoDB לוקלית אם צריך, אבל אפשר גם להריץ Mongo לוקלית בתוך backend
+      mongo:
+        image: mongo:6
         ports:
-          - 5000:5000
-          - 3000:3000
           - 27017:27017
 
     steps:
@@ -28,24 +26,31 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
 
-      - name: Log Docker version
-        run: docker --version
+      # --- Backend ---
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
 
-      - name: Build and start Docker Compose
-        run: |
-          docker compose -f docker-compose.yml up -d --build
-          
-      - name: Wait for frontend
-        run: npx wait-on http://localhost:5173
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
 
-      - name: Wait for backend
-        run: npx wait-on http://localhost:5000
+      - name: Run backend
+        working-directory: backend
+        run: npm start &
+        # & חשוב כדי שזה ירוץ ברקע והCI ימשיך
 
-      - name: Run Cypress tests (Chrome headless)
-        run: npx cypress run --browser chrome --headless
+      # --- Frontend ---
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
 
-      - name: Stop Docker Compose
-        if: always()
-        run: docker compose down
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      # --- Cypress E2E ---
+      - name: Run Cypress tests
+        working-directory: frontend
+        run: npm run test:e2e

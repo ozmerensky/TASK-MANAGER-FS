@@ -6,7 +6,8 @@
     "start": "ts-node src/startServer.ts",
     "dev": "nodemon src/startServer.ts",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "start:mock": "ts-node src/startServer.mock.ts"
   },
   "keywords": [],
   "author": "",

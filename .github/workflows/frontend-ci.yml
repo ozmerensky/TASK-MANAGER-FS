@@ -25,9 +25,9 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Run Cypress tests (Chrome headless)
+      - name: Run frontend tests (Cypress Chrome headless)
         working-directory: frontend
-        run: npx cypress run --browser chrome --headless
+        run: npx start-server-and-test start http://localhost:5173 cypress:run --browser chrome --headless
 
       - name: Build frontend
         working-directory: frontend

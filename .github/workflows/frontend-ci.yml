@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Frontend + Backend CI
 
 on:
   push:
@@ -25,12 +25,22 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Start frontend server in background
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Start backend server
+        working-directory: backend
+        run: npm run dev &
+
+      - name: Start frontend server
         working-directory: frontend
         run: npm run dev &
 
-      - name: Wait for frontend server to be ready
-        working-directory: frontend
+      - name: Wait for backend
+        run: npx wait-on http://localhost:5000
+
+      - name: Wait for frontend
         run: npx wait-on http://localhost:5173
 
       - name: Run Cypress tests (Chrome headless)

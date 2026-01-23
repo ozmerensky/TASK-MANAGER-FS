@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -25,9 +25,9 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Run frontend tests (Cypress Chrome headless)
+      - name: Run Cypress tests (Chrome headless)
         working-directory: frontend
-        run: npx start-server-and-test start http://localhost:5173 cypress:run --browser chrome --headless
+        run: npx cypress run --browser chrome --headless
 
       - name: Build frontend
         working-directory: frontend

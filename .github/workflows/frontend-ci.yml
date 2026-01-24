@@ -9,7 +9,7 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-    
+
     services:
       mongo:
         image: mongo:6.0
@@ -64,6 +64,16 @@ jobs:
         working-directory: frontend
         run: npx cypress run
 
-      - name: Build frontend
-        working-directory: frontend
-        run: npm run build --if-present
+      - name: Upload Cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: frontend/cypress/videos
+
+      - name: Upload Cypress screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: frontend/cypress/screenshots

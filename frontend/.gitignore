@@ -33,3 +33,7 @@ dist-ssr
 frontend/cypress/screenshots/
 frontend/cypress/videos/
 
+# Local environment files (do not commit)
+.env
+.env.local
+

@@ -8,15 +8,17 @@ Key features
 - Tests: unit (services) and integration (routes) using an in-memory MongoDB
 
 Prerequisites
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 - A running MongoDB instance for development (or use the in-memory server used by tests)
 
 Quick start (development)
 1. Install dependencies:
 	npm i
 2. Create a local env file at `backend/.env` (this file is ignored by git). Example values are in `backend/.env.example`.
-	MONGO_URI=mongodb://localhost:27017/tasky_dev
 	PORT=5000
+	MONGO_URI=mongodb://localhost:27017/tasky_dev
+	ALLOWED_ORIGINS=http://localhost:3000
+	API_PREFIX=/tasks
 3. Start the backend server:
 	npm run dev
 
@@ -34,7 +36,7 @@ Important files
 Environment
 - Do NOT commit real secret values to source control. Keep them in `backend/.env` and ensure `.gitignore` contains `.env`.
 
-CI / Deployment notes
+CI pipeline
 - Tests use `mongodb-memory-server` for CI-friendly integration testing. In production, set `MONGO_URI` to your managed MongoDB.
 
 License

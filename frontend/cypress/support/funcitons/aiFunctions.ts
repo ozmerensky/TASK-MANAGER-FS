@@ -1,4 +1,3 @@
-import { times } from "../mapping/constants/times";
 import { tasksSelectors } from "../mapping/tasksMapping";
 import tasksFunctions from "./tasksFunctions";
 
@@ -18,7 +17,6 @@ class aiFunctions{
         ): Cypress.Chainable<any> => {
             cy.log(`Attempting AI suggestion, attempts left: ${attemptsLeft}`);
             this.suggestAiEditTask();
-            cy.wait(times.waitToDataCheck);
 
             return tasksFunctions.grabTaskValues().then((newTask: any) => {
                 const nt = newTask as { title: string; category: string; description: string; date: string };
@@ -35,7 +33,6 @@ class aiFunctions{
 
                 if (attemptsLeft > 1) {
                     cy.log('No field changed, retrying AI suggestion...');
-                    cy.wait(times.waitToLoad);
                     return compareAndAssert(oldTask, attemptsLeft - 1);
                 }
 
@@ -45,12 +42,10 @@ class aiFunctions{
         };
 
         if (previousTask) {
-            cy.wait(times.waitToDataCheck);
             return compareAndAssert(previousTask as any);
         }
 
         return tasksFunctions.grabTaskValues().then((oldTask: any) => {
-            cy.wait(times.waitToLoad);
             return compareAndAssert(oldTask as { title: string; category: string; description: string; date: string });
         });
     }

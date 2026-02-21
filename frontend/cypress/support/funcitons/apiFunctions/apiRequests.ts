@@ -1,4 +1,3 @@
-import { times } from "../../mapping/constants/times";
 
 class apiRequests{
     interceptCreateTask(){
@@ -15,7 +14,6 @@ class apiRequests{
             expect(createdTask).to.have.property('_id')
             cy.wrap(createdTask._id).as('createdTaskId')
         })
-        cy.wait(times.afterCardCreation)
     }
     validateTaskInDB(uiTask: { title: string; category: string; description: string; date: string }) {
         cy.get('@createdTaskId').then((taskId) => {
@@ -53,7 +51,6 @@ class apiRequests{
             expect(createdTask).to.have.property('_id')
             cy.wrap(createdTask._id).as('createdTaskId')
         })
-        cy.wait(times.afterCardCreation)
     }
     validateCompletedTask(){
         cy.get('@createdTaskId').then((taskId) => {

@@ -1,7 +1,6 @@
 import tasksFunctions from "../support/funcitons/tasksFunctions"
 import aiFunctions from "../support/funcitons/aiFunctions"
 import apiRequests from "../support/funcitons/apiFunctions/apiRequests"
-import { times } from "../support/mapping/constants/times"
 
 describe('AI Task Flow', () => {
     it('Should generate AI task and create card with the same data', () => {
@@ -9,7 +8,6 @@ describe('AI Task Flow', () => {
         tasksFunctions.validateMainTitle()
         aiFunctions.generateAiTask()
         apiRequests.interceptCreateTask()
-        cy.wait(times.waitToLoad)
         tasksFunctions.grabFormValues().then((task) => {
             tasksFunctions.submitCreateForm()
             apiRequests.waitForTaskCreationAndGetId()
@@ -38,7 +36,6 @@ describe('AI Task Flow', () => {
         apiRequests.interceptUpdateTask()
         tasksFunctions.openEditFormOnLastTask()
         tasksFunctions.SearchTaskByTitle()
-        cy.wait(times.waitToLoad);
         tasksFunctions.toggleCompletionOnFoundTask();
         apiRequests.waitForTaskEditAndGetId();
         tasksFunctions.validateToggleChangedStatus();
@@ -50,7 +47,6 @@ describe('AI Task Flow', () => {
         apiRequests.interceptDeleteTask()
         tasksFunctions.openEditFormOnLastTask()
         tasksFunctions.SearchTaskByTitle()
-        cy.wait(times.waitToLoad)
         tasksFunctions.deleteTask()
         apiRequests.waitForTaskDeleteAndGetId()
         apiRequests.validateDeletedTask()

@@ -33,3 +33,5 @@ This is the frontend for the Life-Task-Manager application. It is a React + Type
 
     Notes
     - The frontend includes an AI mock suggestion feature used by Cypress tests (no external AI calls).
+
+Note: Run a dockerized version of the app locally using Docker Compose from the repository root for an easy setup with all services (frontend, backend, and MongoDB) running together. (See the main README.md for Docker instructions.)

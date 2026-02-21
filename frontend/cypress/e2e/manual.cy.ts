@@ -1,7 +1,5 @@
 import tasksFunctions from "../support/funcitons/tasksFunctions"
 import apiRequests from "../support/funcitons/apiFunctions/apiRequests"
-import { times } from "../support/mapping/constants/times"
-import { tasksSelectors } from "../support/mapping/tasksMapping"
 
 describe('Manual Task Flow', () => {
     it('Should create a task by typing into the form and validate DB', () => {
@@ -42,7 +40,6 @@ describe('Manual Task Flow', () => {
         apiRequests.interceptUpdateTask()
         tasksFunctions.openEditFormOnLastTask()
         tasksFunctions.SearchTaskByTitle()
-        cy.wait(times.waitToLoad);
         tasksFunctions.toggleCompletionOnFoundTask();
         apiRequests.waitForTaskEditAndGetId();
         tasksFunctions.validateToggleChangedStatus();
@@ -54,7 +51,6 @@ describe('Manual Task Flow', () => {
         apiRequests.interceptDeleteTask()
         tasksFunctions.openEditFormOnLastTask()
         tasksFunctions.SearchTaskByTitle()
-        cy.wait(times.waitToLoad)
         tasksFunctions.deleteTask()
         apiRequests.waitForTaskDeleteAndGetId()
         apiRequests.validateDeletedTask()

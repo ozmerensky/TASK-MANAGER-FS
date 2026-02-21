@@ -1,7 +1,4 @@
 import { tasksSelectors } from "../mapping/tasksMapping";
-import { TaskInput } from "../mapping/constants/task.types";
-import { TaskSource } from "../mapping/constants/task.types";
-import { times } from "../mapping/constants/times";
 
 class tasksFunctions {
     appEntrance(){

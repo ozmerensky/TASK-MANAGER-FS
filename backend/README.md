@@ -42,3 +42,5 @@ CI pipeline
 License
 This project is open source (see LICENSE in the repository).
 
+Note: Run a dockerized version of the app locally using Docker Compose from the repository root for an easy setup with all services (frontend, backend, and MongoDB) running together. (See the main README.md for Docker instructions.)
+

@@ -3,7 +3,7 @@
 
 Short guide: run the whole app locally with Docker Compose from the repository root.
 
-Docker (local)
+Running with Docker (Local Development):
 - Build all services
   ```sh
   docker compose build

@@ -39,8 +39,5 @@ Environment
 CI pipeline
 - Tests use `mongodb-memory-server` for CI-friendly integration testing. In production, set `MONGO_URI` to your managed MongoDB.
 
-License
-This project is open source (see LICENSE in the repository).
-
 Note: Run a dockerized version of the app locally using Docker Compose from the repository root for an easy setup with all services (frontend, backend, and MongoDB) running together. (See the main README.md for Docker instructions.)
 

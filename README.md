@@ -1,6 +1,10 @@
 
 # Life-Task-Manager
 
+License:
+
+MIT License (see LICENSE in the repository).
+
 Short guide: run the whole app locally with Docker Compose from the repository root.
 
 Running with Docker (Local Development):

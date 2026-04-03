@@ -1,10 +1,10 @@
 import type { TaskInput } from "../constants/task.types";
 
-// --- פונקציה ליצירת תאריך אקראי ---
+// --- Function for generating a random date ---
 const getRandomDate = (): string => {
   const today = new Date();
   const future = new Date();
-  future.setDate(today.getDate() + 30); // עד חודש קדימה
+  future.setDate(today.getDate() + 30); // up to one month ahead
 
   const randomTime = today.getTime() + Math.random() * (future.getTime() - today.getTime());
   return new Date(randomTime).toISOString().split('T')[0];

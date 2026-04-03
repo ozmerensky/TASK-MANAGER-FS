@@ -9,7 +9,6 @@ export const getTasks = async (): Promise<Task[]> => {
 };
 
 export const createTask = async (taskData: TaskInput): Promise<Task> => {
-  // כאן נוודא שהקטגוריה היא באמת TaskCategory
   const data: TaskInput & { category: TaskCategory } = taskData;
   const response = await axios.post(`${BASE_URL}/create`, data);
   return response.data;

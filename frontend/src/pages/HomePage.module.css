@@ -189,7 +189,7 @@
   margin-top: 25px;
   padding: 0;
   width: 100%;
-  max-width: 1200px; /* כדי לא להימתח יותר מדי במסכים ענקיים */
+  max-width: 1200px;
   list-style: none;
 }
 

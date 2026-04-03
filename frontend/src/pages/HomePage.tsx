@@ -97,7 +97,6 @@ const HomePage: React.FC = () => {
   };
 
   const handleAISuggestEdit = () => {
-    // שומר על completed אם יש
     const suggestion = aiSuggestions[Math.floor(Math.random() * aiSuggestions.length)];
     setFormData(prev => ({ ...suggestion, completed: prev.completed ?? false }));
   };

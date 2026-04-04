@@ -17,4 +17,4 @@ RUN npm ci --omit=dev
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 5000
-CMD ["node", "dist/startServer.js"]
+CMD ["node", "dist/src/startServer.js"]

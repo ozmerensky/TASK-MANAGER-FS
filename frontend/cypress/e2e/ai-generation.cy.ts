@@ -2,7 +2,7 @@ import tasksFunctions from "../support/funcitons/tasksFunctions"
 import aiFunctions from "../support/funcitons/aiFunctions"
 import apiRequests from "../support/funcitons/apiFunctions/apiRequests"
 
-describe('AI Task Flow', () => {
+describe('AI-Assisted Task Management', () => {
     it('Should generate AI task and create card with the same data', () => {
         tasksFunctions.appEntrance()
         tasksFunctions.validateMainTitle()
@@ -41,7 +41,7 @@ describe('AI Task Flow', () => {
         tasksFunctions.validateToggleChangedStatus();
         apiRequests.validateCompletedTask()
     })
-    it('Should delete the last task via AI after the completion', () => {
+    it('Should find and delete the last task via AI suggestion', () => {
         tasksFunctions.appEntrance()
         tasksFunctions.validateMainTitle()
         apiRequests.interceptDeleteTask()

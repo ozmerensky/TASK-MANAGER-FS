@@ -4,7 +4,7 @@ import { withDatabase } from '../base/baseTest';
 import TaskModel from '../../src/models/Task';
 
 withDatabase(() => {
-  describe('Task Service Unit Tests', () => {
+  describe('Task Service Tests', () => {
 
     describe('createTaskService', () => {
       it('should create a task', async () => {

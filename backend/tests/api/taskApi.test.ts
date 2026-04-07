@@ -4,7 +4,7 @@ import TaskModel from '../../src/models/Task';
 import { withDatabase } from '../base/baseTest';
 
 withDatabase(() => {
-  describe('Task Routes Integration Tests', () => {
+  describe('Task API Tests', () => {
 
     it('POST /tasks/create creates a task', async () => {
       const task: TaskInput = taskData.nutrition;
@@ -14,7 +14,7 @@ withDatabase(() => {
     });
 
     it('POST /tasks/create fails with missing title', async () => {
-  const res = await taskApi.create({ category: 'Workout', date: '2025-09-17' } as any);
+      const res = await taskApi.create({ category: 'Workout', date: '2025-09-17' } as any);
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('Invalid data');
     });

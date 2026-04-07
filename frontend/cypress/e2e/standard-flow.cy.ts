@@ -1,9 +1,9 @@
 import tasksFunctions from "../support/funcitons/tasksFunctions"
 import apiRequests from "../support/funcitons/apiFunctions/apiRequests"
 
-describe('Manual Task Flow', () => {
+describe('Standard User Task Flow', () => {
     it('Should create a task by typing into the form and validate DB', () => {
-        cy.fixture('tasksManual').then((tasks) => {
+        cy.fixture('tasks').then((tasks) => {
             tasksFunctions.appEntrance()
             tasksFunctions.validateMainTitle()
             apiRequests.interceptCreateTask()
@@ -17,7 +17,7 @@ describe('Manual Task Flow', () => {
         })
     })
     it('Should edit last task and validate the update', () => {
-        cy.fixture('tasksManual').then((tasks) => {
+        cy.fixture('tasks').then((tasks) => {
             tasksFunctions.appEntrance()
             tasksFunctions.validateMainTitle()
             apiRequests.interceptUpdateTask()
@@ -45,7 +45,7 @@ describe('Manual Task Flow', () => {
         tasksFunctions.validateToggleChangedStatus();
         apiRequests.validateCompletedTask()
     })
-    it('Should delete the last task after the completion', () => {
+    it('Should find and delete the last task', () => {
         tasksFunctions.appEntrance()
         tasksFunctions.validateMainTitle()
         apiRequests.interceptDeleteTask()

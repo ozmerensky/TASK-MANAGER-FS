@@ -16,44 +16,59 @@ describe('Standard User Task Flow', () => {
             })
         })
     })
-    it('Should edit last task and validate the update', () => {
-        cy.fixture('tasks').then((tasks) => {
+
+    describe('Actions on existing tasks created from fixtures', () => {
+        beforeEach(() => {
+            cy.fixture('tasks').then((tasks) => {
+                apiRequests.createRandomTaskFromArray(tasks.created);
+            });
+        });
+
+        afterEach(() => {
+            apiRequests.cleanupCurrentTask();
+        });
+
+        it('Should edit last task and validate the update', () => {
+            cy.fixture('tasks').then((tasks) => {
+                tasksFunctions.appEntrance()
+                tasksFunctions.validateMainTitle()
+                apiRequests.interceptUpdateTask()
+                tasksFunctions.openEditFormOnLastTask()
+                tasksFunctions.editTask()
+                tasksFunctions.grabTaskValues().then(() => {
+                    tasksFunctions.fillManualTaskEditForm(tasks.edited)
+                    tasksFunctions.grabTaskValues().then((newTask: any) => {
+                        tasksFunctions.saveEditTask()
+                        apiRequests.waitForTaskEditAndGetId()
+                        tasksFunctions.validateCardValues(newTask)
+                        apiRequests.validateTaskInDB(newTask)
+                    })
+                })
+            })
+        })
+
+        it('Should search and toggle completion status of last task and validate the update', () => {
             tasksFunctions.appEntrance()
             tasksFunctions.validateMainTitle()
             apiRequests.interceptUpdateTask()
             tasksFunctions.openEditFormOnLastTask()
-            tasksFunctions.editTask()
-            tasksFunctions.grabTaskValues().then(() => {
-                tasksFunctions.fillManualTaskEditForm(tasks.edited)
-                tasksFunctions.grabTaskValues().then((newTask: any) => {
-                    tasksFunctions.saveEditTask()
-                    apiRequests.waitForTaskEditAndGetId()
-                    tasksFunctions.validateCardValues(newTask)
-                    apiRequests.validateTaskInDB(newTask)
-                })
-            })
+            tasksFunctions.SearchTaskByTitle()
+            tasksFunctions.toggleCompletionOnFoundTask();
+            apiRequests.waitForTaskEditAndGetId();
+            tasksFunctions.validateToggleChangedStatus();
+            apiRequests.validateCompletedTask()
         })
-    })
-    it('Should search and toggle completion status of last task and validate the update', () => {
-        tasksFunctions.appEntrance()
-        tasksFunctions.validateMainTitle()
-        apiRequests.interceptUpdateTask()
-        tasksFunctions.openEditFormOnLastTask()
-        tasksFunctions.SearchTaskByTitle()
-        tasksFunctions.toggleCompletionOnFoundTask();
-        apiRequests.waitForTaskEditAndGetId();
-        tasksFunctions.validateToggleChangedStatus();
-        apiRequests.validateCompletedTask()
-    })
-    it('Should find and delete the last task', () => {
-        tasksFunctions.appEntrance()
-        tasksFunctions.validateMainTitle()
-        apiRequests.interceptDeleteTask()
-        tasksFunctions.openEditFormOnLastTask()
-        tasksFunctions.SearchTaskByTitle()
-        tasksFunctions.deleteTask()
-        apiRequests.waitForTaskDeleteAndGetId()
-        apiRequests.validateDeletedTask()
+
+        it('Should find and delete the last task', () => {
+            tasksFunctions.appEntrance()
+            tasksFunctions.validateMainTitle()
+            apiRequests.interceptDeleteTask()
+            tasksFunctions.openEditFormOnLastTask()
+            tasksFunctions.SearchTaskByTitle()
+            tasksFunctions.deleteTask()
+            apiRequests.waitForTaskDeleteAndGetId()
+            apiRequests.validateDeletedTask()
+        })
     })
 })
 

@@ -1,5 +1,19 @@
 
 class apiRequests{
+
+    currentTaskId: string | null = null;
+
+    createRandomTaskFromArray(taskArray: { title: string; category: string; description: string; date: string }[]) {
+        const randomTask = taskArray[Math.floor(Math.random() * taskArray.length)];
+        return cy.request('POST', 'http://localhost:5000/tasks/create', randomTask).then((response) => {
+            expect(response.status).to.eq(201);
+            expect(response.body).to.have.property('_id');
+            this.currentTaskId = response.body._id;
+            cy.wrap(response.body._id).as('taskId');
+            cy.wrap(randomTask).as('createdTaskData');
+        });
+    }
+
     interceptCreateTask(){
         cy.intercept('POST', '/tasks/create').as('createTask')
     }
@@ -101,6 +115,17 @@ class apiRequests{
             })
         })
     }
-}
 
+    cleanupCurrentTask() {
+        if (this.currentTaskId) {
+            cy.request({
+                method: 'DELETE',
+                url: `http://localhost:5000/tasks/${this.currentTaskId}/delete`,
+                failOnStatusCode: false
+            }).then(() => {
+                this.currentTaskId = null;
+            });
+        }
+    }
+}
 export default new apiRequests()

@@ -19,12 +19,19 @@ MIT License (see LICENSE in this repository)
 
 ## Technical Decisions & Strategy
 
--   **Dockerized Infrastructure:** I containerized the entire stack (Frontend, Backend, and MongoDB 6) using **Docker Compose**. This ensures **environment parity** between local development and CI, effectively eliminating "it works on my machine" issues and ensuring a deterministic system state.
--   **Modern Frontend with Vite:** I opted for **Vite + TypeScript** over traditional tools to leverage its lightning-fast HMR (Hot Module Replacement) and optimized build process, significantly improving developer velocity.
--   **Robust Testing Stack (Jest + Supertest):** For the backend, I implemented **Jest** for its powerful mocking capabilities and speed. I used **Supertest** to validate API endpoints with real HTTP requests, ensuring stable integration between routes and controllers.
--   **In-Memory Database for CI Efficiency:** I integrated `mongodb-memory-server` within the Jest lifecycle (`beforeAll`/`afterEach`). This provides a **truly isolated and ephemeral database instance** for each test suite, preventing state leakage and ensuring a high-speed, reliable feedback loop in the CI pipeline.
--   **E2E Resilience with Cypress:** I leveraged **Cypress** to validate critical end-to-end user flows. By implementing custom test selectors and utilizing Cypress's automatic waiting mechanism, I ensured the tests are resilient to UI rendering delays and asynchronous state changes.
--   **Strict Port Isolation:** To maintain **system determinism**, I enforced a strict policy of isolating the Dockerized environment from local development servers, preventing port conflicts (5000/5173) and ensuring clean test executions.
+- **Dockerized Infrastructure:** I containerized the entire stack (Frontend, Backend, and MongoDB 6) using **Docker Compose**. This ensures **environment parity** between local development and CI, effectively eliminating "it works on my machine" issues and ensuring a deterministic system state.
+
+- **Modern Frontend with Vite:** I opted for **Vite + TypeScript** over traditional tools to leverage its lightning-fast HMR (Hot Module Replacement) and optimized build process, significantly improving developer velocity.
+
+- **Layered Testing Strategy (Integration over Unit):** For the backend, I prioritized **Integration Testing** (Service & API layers) over isolated Unit tests. Using **Jest** and **Supertest**, I validated the actual communication between routes, controllers, and services to ensure the "Contract" between layers remains intact, providing high confidence in the entire stack.
+
+- **In-Memory Database for CI Efficiency:** I integrated `mongodb-memory-server` within the Jest lifecycle. This provides a **truly isolated and ephemeral database instance** for each test suite, preventing state leakage and ensuring a high-speed, reliable feedback loop in the CI pipeline.
+
+- **Scalable E2E with POM & API Seeding:** I implemented the **Page Object Model (POM)** pattern in Cypress to decouple test logic from UI selectors, improving maintainability. Additionally, I leveraged **API Seeding** to prepare deterministic, predictable data states before each test, ensuring test independence from UI creation logic and improving test reliability.
+
+- **Smart Synchronization & Resilience:** I replaced fragile, time-based waits with **Cypress Aliases and Intercepts**. By combining these with Cypress's automatic waiting mechanism, I ensured the tests are resilient to network fluctuations and asynchronous state changes.
+
+- **Strict Port Isolation:** To maintain **system determinism**, I enforced a strict policy of isolating the Dockerized environment from local development servers, preventing port conflicts (5000/5173) and ensuring clean, stateless test executions.
 
 
 ## Quick Start (Local Development)

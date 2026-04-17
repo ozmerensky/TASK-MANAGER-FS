@@ -165,16 +165,6 @@ You can run the entire app (frontend + backend + MongoDB) locally with Docker Co
    docker compose ps
    ```
 
-## Notes
-
-Ports mapping:
-
-- Backend: 5000
-- Frontend: 3000
-- MongoDB: 27017
-
-Do not run local development servers (npm run dev / npm start) while Docker Compose is running to avoid port conflicts.
-
 ## Environment & CI
 
 Keep secrets in .env files, do not commit them
@@ -184,3 +174,17 @@ CI pipelines run tests automatically and ensure code quality
 Backend tests use mongodb-memory-server for CI-friendly integration
 
 E2E tests use MongoDB 6 container
+
+## AI Workflow Detail:
+  Utilized AI to brainstorm the communication contract between React and Express, ensuring type safety across the stack. I leveraged AI-driven insights to generate comprehensive Cypress test scenarios and optimize Docker configurations, ensuring environment parity and a streamlined development-to-CI pipeline.
+
+
+## Notes
+
+Ports mapping:
+
+- Backend: 5000
+- Frontend: 3000
+- MongoDB: 27017
+
+Do not run local development servers (npm run dev / npm start) while Docker Compose is running to avoid port conflicts.
